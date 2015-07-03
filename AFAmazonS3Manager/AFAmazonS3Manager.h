@@ -158,6 +158,12 @@
                                       success:(void (^)(id responseObject, NSData *responseData))success
                                       failure:(void (^)(NSError *error))failure;
 
+- (AFHTTPRequestOperation *)getObjectWithPath:(NSString *)path
+                                   parameters:(NSDictionary *)parameters
+                                     progress:(void (^)(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead))progress
+                                      success:(void (^)(id responseObject, NSData *responseData))success
+                                      failure:(void (^)(NSError *error))failure;
+
 /**
  Gets an object for a user that has read access to the object.
 

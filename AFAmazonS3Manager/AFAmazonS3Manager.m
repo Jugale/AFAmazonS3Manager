@@ -164,11 +164,20 @@ static NSString * AFPathByEscapingSpacesWithPlusSigns(NSString *path) {
                                       success:(void (^)(id responseObject, NSData *responseData))success
                                       failure:(void (^)(NSError *error))failure
 {
+    return [self getObjectWithPath:path parameters:nil progress:progress success:success failure:failure];
+}
+
+- (AFHTTPRequestOperation *)getObjectWithPath:(NSString *)path
+                                   parameters:(NSDictionary *)parameters
+                                     progress:(void (^)(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead))progress
+                                      success:(void (^)(id responseObject, NSData *responseData))success
+                                      failure:(void (^)(NSError *error))failure
+{
     NSParameterAssert(path);
 
     path = AFPathByEscapingSpacesWithPlusSigns(path);
 
-    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"GET" URLString:[[self.baseURL URLByAppendingPathComponent:path] absoluteString] parameters:nil error:nil];
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"GET" URLString:[[self.baseURL URLByAppendingPathComponent:path] absoluteString] parameters:parameters error:nil];
     AFHTTPRequestOperation *requestOperation = [self HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (success) {
             success(responseObject, operation.responseData);
